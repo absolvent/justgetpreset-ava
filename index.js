@@ -1,0 +1,57 @@
+/**
+ * Copyright (c) 2016-present, lookly
+ * All rights reserved.
+ *
+ * This source code is licensed under the MIT-style license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+'use strict';
+
+const Api = require('ava/api');
+const babelPreset = require('lookly-preset-babel');
+const glob = require('ultra-glob');
+const Logger = require('ava/lib/logger');
+const os = require('os');
+const verboseReporter = require('ava/lib/reporters/verbose');
+
+function runAva(globPatterns) {
+  const reporter = verboseReporter();
+  const api = new Api({
+    babelConfig: babelPreset(),
+    cacheEnabled: true,
+    concurrency: os.cpus().length,
+    explicitTitles: true,
+    failFast: true,
+    match: [],
+    serial: false,
+    source: [],
+  });
+
+  reporter.api = api;
+
+  const logger = new Logger(reporter);
+
+  logger.start();
+
+  api.on('test-run', function (runStatus) {
+    reporter.api = runStatus;
+    runStatus.on('test', logger.test);
+    runStatus.on('error', logger.unhandledError);
+
+    runStatus.on('stdout', logger.stdout);
+    runStatus.on('stderr', logger.stderr);
+  });
+
+  return glob(globPatterns)
+    .then(files => api.run(files))
+    .then(function (runStatus) {
+      logger.finish(runStatus);
+      logger.exit(Math.min(
+        1,
+        runStatus.failCount + runStatus.rejectionCount + runStatus.exceptionCount
+      ));
+    });
+}
+
+module.exports = runAva;
