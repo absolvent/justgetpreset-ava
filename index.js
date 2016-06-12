@@ -11,6 +11,7 @@
 const Api = require('ava/api');
 const babelPreset = require('lookly-preset-babel');
 const glob = require('ultra-glob');
+const gutil = require('gulp-util');
 const Logger = require('ava/lib/logger');
 const os = require('os');
 const verboseReporter = require('ava/lib/reporters/verbose');
@@ -47,10 +48,13 @@ function runAva(globPatterns) {
     .then(files => api.run(files))
     .then(function (runStatus) {
       logger.finish(runStatus);
-      logger.exit(Math.min(
-        1,
-        runStatus.failCount + runStatus.rejectionCount + runStatus.exceptionCount
-      ));
+
+      if (runStatus.failCount + runStatus.rejectionCount + runStatus.exceptionCount > 0) {
+        throw new gutil.PluginError({
+          message: new Error('ava detected errors'),
+          plugin: 'lookly-preset-ava',
+        });
+      }
     });
 }
 
