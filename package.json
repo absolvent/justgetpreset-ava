@@ -6,9 +6,9 @@
     "ultra-glob": "^1.1.1"
   },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "lookly-preset-esformatter": "^1.1.0",
-    "lookly-preset-eslint": "^1.4.11"
+    "gulp": "^3.9.1",
+    "lookly-preset-esformatter": "^2.0.0",
+    "lookly-preset-eslint": "^1.6.1"
   },
   "description": "Wrapper around ava for ease of use and zero configuration.",
   "engines": {

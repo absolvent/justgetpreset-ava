@@ -18,14 +18,6 @@ const files = [
   '*.js',
 ];
 
-gulp.task('format', function () {
-  return esformatter.formatGlob(files);
-});
-
-gulp.task('lint', function () {
-  return eslint(files);
-});
-
-gulp.task('test', ['lint'], function () {
-  return ava('__tests__/**/*.test.js');
-});
+gulp.task('format', () => esformatter.formatGlob(files));
+gulp.task('lint', () => eslint(files));
+gulp.task('test', ['lint'], () => ava('__tests__/**/*.test.js'));

@@ -35,7 +35,7 @@ function runAva(globPatterns) {
 
   logger.start();
 
-  api.on('test-run', function (runStatus) {
+  api.on('test-run', runStatus => {
     reporter.api = runStatus;
     runStatus.on('test', logger.test);
     runStatus.on('error', logger.unhandledError);
@@ -46,7 +46,7 @@ function runAva(globPatterns) {
 
   return glob(globPatterns)
     .then(files => api.run(files))
-    .then(function (runStatus) {
+    .then(runStatus => {
       logger.finish(runStatus);
 
       if (runStatus.failCount + runStatus.rejectionCount + runStatus.exceptionCount > 0) {
