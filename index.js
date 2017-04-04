@@ -17,7 +17,7 @@ const os = require('os');
 const verboseReporter = require('ava/lib/reporters/verbose');
 
 function runAva(globPatterns) {
-  const reporter = verboseReporter();
+  const reporter = new verboseReporter();
   const api = new Api({
     babelConfig: babelPreset(),
     cacheEnabled: true,
@@ -27,6 +27,7 @@ function runAva(globPatterns) {
     match: [],
     serial: false,
     source: [],
+    require: 'babel-register',
   });
 
   reporter.api = api;
