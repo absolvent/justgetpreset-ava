@@ -9,26 +9,15 @@
 'use strict';
 
 const Api = require('ava/api');
-const babelPreset = require('lookly-preset-babel');
 const glob = require('ultra-glob');
 const gutil = require('gulp-util');
 const Logger = require('ava/lib/logger');
-const os = require('os');
-const verboseReporter = require('ava/lib/reporters/verbose');
+const VerboseReporter = require('ava/lib/reporters/verbose');
+const options = require('./options');
 
 function runAva(globPatterns) {
-  const reporter = new verboseReporter();
-  const api = new Api({
-    babelConfig: babelPreset(),
-    cacheEnabled: true,
-    concurrency: os.cpus().length,
-    explicitTitles: true,
-    failFast: true,
-    match: [],
-    serial: false,
-    source: [],
-    require: require.resolve('babel-register-es6-react'),
-  });
+  const reporter = new VerboseReporter();
+  const api = new Api(options);
 
   reporter.api = api;
 
