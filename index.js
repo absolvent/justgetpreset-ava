@@ -27,7 +27,7 @@ function runAva(globPatterns) {
     match: [],
     serial: false,
     source: [],
-    require: 'babel-register',
+    require: require.resolve('babel-register-es6-react'),
   });
 
   reporter.api = api;
