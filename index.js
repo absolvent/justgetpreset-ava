@@ -16,7 +16,7 @@ const VerboseReporter = require('ava/lib/reporters/verbose');
 const options = require('./options');
 
 function runAva(globPatterns, config = {}) {
-  const reporter = new VerboseReporter();
+  const reporter = new VerboseReporter({ color: true });
   const api = new Api(Object.assign({}, options, config));
 
   reporter.api = api;
